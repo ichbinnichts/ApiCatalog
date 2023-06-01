@@ -10,15 +10,15 @@ namespace APICatalog.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("INSERT INTO Category(Name, ImageUrl) VALUES('Drinks', 'Drinks.jpg')");
-            migrationBuilder.Sql("INSERT INTO Category(Name, ImageUrl) VALUES('Food', 'Food.jpg')");
-            migrationBuilder.Sql("INSERT INTO Category(Name, ImageUrl) VALUES('Desserts', 'Desserts.jpg')");
+            migrationBuilder.Sql("INSERT INTO \"Category\"(\"Name\", \"ImageUrl\") VALUES('Drinks', 'Drinks.jpg')");
+            migrationBuilder.Sql("INSERT INTO \"Category\"(\"Name\", \"ImageUrl\") VALUES('Food', 'Food.jpg')");
+            migrationBuilder.Sql("INSERT INTO \"Category\"(\"Name\", \"ImageUrl\") VALUES('Desserts', 'Desserts.jpg')");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DELETE FROM Category");
+            migrationBuilder.Sql("DELETE FROM \"Category\"");
         }
     }
 }

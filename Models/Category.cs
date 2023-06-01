@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APICatalog.Models
 {
-    [Table("Category")]
+    [Table("category")]
     public class Category
     {
         public Category()

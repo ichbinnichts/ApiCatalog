@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APICatalog.Migrations
 {
     [DbContext(typeof(APICatalogContext))]
-    [Migration("20230601165837_RefineMigration")]
+    [Migration("20230601173451_RefineMigration")]
     partial class RefineMigration
     {
         /// <inheritdoc />
@@ -45,7 +45,7 @@ namespace APICatalog.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("category");
                 });
 
             modelBuilder.Entity("APICatalog.Models.Product", b =>
@@ -87,7 +87,7 @@ namespace APICatalog.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product");
+                    b.ToTable("product");
                 });
 
             modelBuilder.Entity("APICatalog.Models.Product", b =>

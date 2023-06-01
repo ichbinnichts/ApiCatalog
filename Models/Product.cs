@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APICatalog.Models
 {
-    [Table("Product")]
+    [Table("product")]
     public class Product
     {
         [Key]
