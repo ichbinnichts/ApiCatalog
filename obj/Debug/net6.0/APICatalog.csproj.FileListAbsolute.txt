@@ -1,0 +1,7 @@
+C:\Dev\csharp\coredotnet\APICatalog\APICatalog\obj\Debug\net6.0\APICatalog.csproj.AssemblyReference.cache
+C:\Dev\csharp\coredotnet\APICatalog\APICatalog\obj\Debug\net6.0\APICatalog.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\csharp\coredotnet\APICatalog\APICatalog\obj\Debug\net6.0\APICatalog.AssemblyInfoInputs.cache
+C:\Dev\csharp\coredotnet\APICatalog\APICatalog\obj\Debug\net6.0\APICatalog.AssemblyInfo.cs
+C:\Dev\csharp\coredotnet\APICatalog\APICatalog\obj\Debug\net6.0\APICatalog.csproj.CoreCompileInputs.cache
+C:\Dev\csharp\coredotnet\APICatalog\APICatalog\obj\Debug\net6.0\APICatalog.MvcApplicationPartsAssemblyInfo.cs
+C:\Dev\csharp\coredotnet\APICatalog\APICatalog\obj\Debug\net6.0\APICatalog.MvcApplicationPartsAssemblyInfo.cache

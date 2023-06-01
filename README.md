@@ -9,3 +9,11 @@
 * dotnet ef migrations add 'name'
 * dotnet ef migrations remove 'name'
 * dotnet ef database update
+* dotnet add package 'name'
+
+* Package Manager - add-migration 'name'
+* Package Manager - remove-migration 'name'
+* Package Manager - update-database
+
+* Package Manager - install-package 'name'
+* Net CLI - dotnet add package 'name'
