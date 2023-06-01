@@ -21,9 +21,19 @@ namespace APICatalog.Controllers
             var products = this._context.Products.ToList();
             if(products == null)
             {
-                return NotFound();
+                return NotFound("Products not found");
             }
             return Ok(products);
+        }
+        [HttpGet("{id}")]
+        public ActionResult<Product> Get(int id)
+        {
+            var product = this._context.Products.FirstOrDefault(p => p.ProductId == id);
+            if(product == null)
+            {
+                return NotFound("Product not found");
+            }
+            return Ok(product);
         }
     }
 }
