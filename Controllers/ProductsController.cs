@@ -22,24 +22,24 @@ namespace APICatalog.Controllers
             var products = this._context.Products.ToList();
             if(products == null)
             {
-                return NotFound("Products not found");
+                return NotFound("Products not found...");
             }
             return Ok(products);
         }
-        [HttpGet("{id}", Name ="GetProduct")]
+        [HttpGet("{id:int}", Name ="GetProduct")]
         public ActionResult<Product> Get(int id)
         {
             var product = this._context.Products.FirstOrDefault(p => p.ProductId == id);
-            if(product == null)
+            if(product is null)
             {
-                return NotFound("Product not found");
+                return NotFound("Product not found...");
             }
             return Ok(product);
         }
         [HttpPost]
         public ActionResult Post(Product product)
         {
-            if (product == null)
+            if (product is null)
                 return BadRequest();
             
             _context.Products.Add(product);
@@ -48,7 +48,7 @@ namespace APICatalog.Controllers
             return new CreatedAtRouteResult("GetProduct",
                 new { id = product.ProductId }, product);
         }
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public ActionResult Put(int id, Product product)
         {
             if(id != product.ProductId)
@@ -56,6 +56,19 @@ namespace APICatalog.Controllers
                 return BadRequest();
             }
             _context.Entry(product).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok();
+        }
+        [HttpDelete("{id:int}")]
+        public ActionResult Delete(int id)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
+            if(product is null)
+            {
+                return NotFound("Product not found...");
+            }
+            _context.Products.Remove(product);
             _context.SaveChanges();
 
             return Ok();
