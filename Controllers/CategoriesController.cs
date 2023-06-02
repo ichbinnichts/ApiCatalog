@@ -19,21 +19,33 @@ namespace APICatalog.Controllers
         public ActionResult<IEnumerable<Category>> Get()
         {
             var categories = _context.Categories.ToList();
-            if(categories is null)
+            if(categories == null)
             {
                 return NotFound("Categories not found...");
             }
             return Ok(categories);
         }
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name ="GetCategory")]
         public ActionResult<Category> Get(int id)
         {
             var category = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
-            if(category is null)
+            if(category == null)
             {
                 return NotFound("Category not found...");
             }
             return Ok(category);
+        }
+        [HttpPost]
+        public ActionResult Post(Category category)
+        {
+            if(category == null)
+            {
+                return BadRequest();
+            }
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+            return new CreatedAtRouteResult("GetCategory",
+                new { id = category.CategoryId }, category);
         }
     }
 }
