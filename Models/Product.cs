@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace APICatalog.Models
 {
@@ -25,6 +26,9 @@ namespace APICatalog.Models
         [Required]
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
+
+        //The jsonIgnore, it ignores the serialization and deserialization of this property
+        [JsonIgnore]
         public Category? Category { get; set; }
     }
 }
