@@ -25,59 +25,105 @@ namespace APICatalog.Controllers
             // you will get a better app performance
 
             //Never get all records in a get method, it will overcharge the app. Use Take(10) as example
-            var products = _context.Products.AsNoTracking().Take(10).ToList();
-            if(products == null)
+
+            try
             {
-                return NotFound("Products not found...");
+                var products = _context.Products.AsNoTracking().Take(10).ToList();
+                if (products == null)
+                {
+                    return NotFound("Products not found...");
+                }
+                return Ok(products);
             }
-            return Ok(products);
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error occurred while handling your request");
+            }
+            
         }
         [HttpGet("{id:int}", Name ="GetProduct")]
         public ActionResult<Product> Get(int id)
         {
-            var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.ProductId == id);
-            if(product == null)
+            try
             {
-                return NotFound("Product not found...");
+                var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.ProductId == id);
+                if (product == null)
+                {
+                    return NotFound("Product not found...");
+                }
+                return Ok(product);
             }
-            return Ok(product);
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error occurred while handling your request");
+            }
+            
         }
         [HttpPost]
         public ActionResult Post(Product product)
         {
-            if (product == null)
-                return BadRequest();
-            
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            try
+            {
+                if (product == null)
+                    return BadRequest();
 
-            return new CreatedAtRouteResult("GetProduct",
-                new { id = product.ProductId }, product);
+                _context.Products.Add(product);
+                _context.SaveChanges();
+
+                return new CreatedAtRouteResult("GetProduct",
+                    new { id = product.ProductId }, product);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error occurred while handling your request");
+            }
+            
         }
         [HttpPut("{id:int}")]
         public ActionResult Put(int id, Product product)
         {
-            if(id != product.ProductId)
+            try
             {
-                return BadRequest();
+                if (id != product.ProductId)
+                {
+                    return BadRequest();
+                }
+                _context.Entry(product).State = EntityState.Modified;
+                _context.SaveChanges();
             }
-            _context.Entry(product).State = EntityState.Modified;
-            _context.SaveChanges();
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error occurred while handling your request");
+            }
+            
 
             return Ok(product);
         }
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
-            if(product == null)
+            try
             {
-                return NotFound("Product not found...");
-            }
-            _context.Products.Remove(product);
-            _context.SaveChanges();
+                var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
+                if (product == null)
+                {
+                    return NotFound("Product not found...");
+                }
+                _context.Products.Remove(product);
+                _context.SaveChanges();
 
-            return Ok(product);
+                return Ok(product);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error occurred while handling your request");
+            }
+            
         }
     }
 }
