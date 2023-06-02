@@ -21,9 +21,19 @@ namespace APICatalog.Controllers
             var categories = _context.Categories.ToList();
             if(categories is null)
             {
-                return NotFound();
+                return NotFound("Categories not found...");
             }
             return Ok(categories);
+        }
+        [HttpGet("{id:int}")]
+        public ActionResult<Category> Get(int id)
+        {
+            var category = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
+            if(category is null)
+            {
+                return NotFound("Category not found...");
+            }
+            return Ok(category);
         }
     }
 }

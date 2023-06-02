@@ -30,7 +30,7 @@ namespace APICatalog.Controllers
         public ActionResult<Product> Get(int id)
         {
             var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
-            if(product is null)
+            if(product == null)
             {
                 return NotFound("Product not found...");
             }
@@ -39,7 +39,7 @@ namespace APICatalog.Controllers
         [HttpPost]
         public ActionResult Post(Product product)
         {
-            if (product is null)
+            if (product == null)
                 return BadRequest();
             
             _context.Products.Add(product);
@@ -64,7 +64,7 @@ namespace APICatalog.Controllers
         public ActionResult Delete(int id)
         {
             var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
-            if(product is null)
+            if(product == null)
             {
                 return NotFound("Product not found...");
             }
