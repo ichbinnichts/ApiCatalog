@@ -19,7 +19,13 @@ namespace APICatalog.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Product>> Get()
         {
-            var products = _context.Products.ToList();
+
+            //TIPS:
+            //Using AsNoTracking() in properties that doesnt alter the values in the db
+            // you will get a better app performance
+
+            //Never get all records in a get method, it will overcharge the app. Use Take(10) as example
+            var products = _context.Products.AsNoTracking().Take(10).ToList();
             if(products == null)
             {
                 return NotFound("Products not found...");
@@ -29,7 +35,7 @@ namespace APICatalog.Controllers
         [HttpGet("{id:int}", Name ="GetProduct")]
         public ActionResult<Product> Get(int id)
         {
-            var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
+            var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.ProductId == id);
             if(product == null)
             {
                 return NotFound("Product not found...");

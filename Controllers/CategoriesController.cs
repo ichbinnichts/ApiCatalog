@@ -18,14 +18,22 @@ namespace APICatalog.Controllers
         [HttpGet("products")]
         public ActionResult<IEnumerable<Category>> GetCategoryProducts()
         {
-            return _context.Categories.Include(c => c.Products).ToList();
+            //TIPS:
+            //Never return related objects without filters, it will overcharge the app
+            //Use Where(c => CategoryId <= 5) as example
+            return _context.Categories.Include(p => p.Products).Where(c => c.CategoryId <= 5).ToList();
         }
 
 
         [HttpGet]
         public ActionResult<IEnumerable<Category>> Get()
         {
-            var categories = _context.Categories.ToList();
+            //TIPS:
+            //Using AsNoTracking() in properties that doesnt alter the values in the db
+            // you will get a better app performance
+
+            //Never get all records in a get method, it will overcharge the app. Use Take(10) as example
+            var categories = _context.Categories.AsNoTracking().Take(10).ToList();
             if(categories == null)
             {
                 return NotFound("Categories not found...");
@@ -35,7 +43,7 @@ namespace APICatalog.Controllers
         [HttpGet("{id:int}", Name ="GetCategory")]
         public ActionResult<Category> Get(int id)
         {
-            var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+            var category = _context.Categories.AsNoTracking().FirstOrDefault(c => c.CategoryId == id);
             if(category == null)
             {
                 return NotFound("Category not found...");
