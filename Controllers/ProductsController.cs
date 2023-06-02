@@ -19,7 +19,7 @@ namespace APICatalog.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Product>> Get()
         {
-            var products = this._context.Products.ToList();
+            var products = _context.Products.ToList();
             if(products == null)
             {
                 return NotFound("Products not found...");
@@ -29,7 +29,7 @@ namespace APICatalog.Controllers
         [HttpGet("{id:int}", Name ="GetProduct")]
         public ActionResult<Product> Get(int id)
         {
-            var product = this._context.Products.FirstOrDefault(p => p.ProductId == id);
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
             if(product is null)
             {
                 return NotFound("Product not found...");
@@ -71,7 +71,7 @@ namespace APICatalog.Controllers
             _context.Products.Remove(product);
             _context.SaveChanges();
 
-            return Ok();
+            return Ok(product);
         }
     }
 }
