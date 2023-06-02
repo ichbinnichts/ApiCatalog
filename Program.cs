@@ -27,6 +27,12 @@ builder.Services.AddDbContext<APICatalogContext>(options => options.UseNpgsql(ps
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+// --------- Use exception Handler when is not in dev env
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+} 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -21,7 +21,16 @@ namespace APICatalog.Controllers
             //TIPS:
             //Never return related objects without filters, it will overcharge the app
             //Use Where(c => CategoryId <= 5) as example
-            return _context.Categories.Include(p => p.Products).Where(c => c.CategoryId <= 5).ToList();
+
+            try
+            {
+                return _context.Categories.Include(p => p.Products).Where(c => c.CategoryId <= 5).ToList();
+            }catch(Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    "An error ocurred while handling your request");
+            }
+            
         }
 
 
@@ -33,57 +42,102 @@ namespace APICatalog.Controllers
             // you will get a better app performance
 
             //Never get all records in a get method, it will overcharge the app. Use Take(10) as example
-            var categories = _context.Categories.AsNoTracking().Take(10).ToList();
-            if(categories == null)
+
+            try
             {
-                return NotFound("Categories not found...");
+                var categories = _context.Categories.AsNoTracking().Take(10).ToList();
+                if (categories == null)
+                {
+                    return NotFound("Categories not found...");
+                }
+                return Ok(categories);
+            }catch(Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error ocurred while handling your request");
             }
-            return Ok(categories);
+            
         }
         [HttpGet("{id:int}", Name ="GetCategory")]
         public ActionResult<Category> Get(int id)
         {
-            var category = _context.Categories.AsNoTracking().FirstOrDefault(c => c.CategoryId == id);
-            if(category == null)
+            try
             {
-                return NotFound("Category not found...");
+                var category = _context.Categories.AsNoTracking().FirstOrDefault(c => c.CategoryId == id);
+                if (category == null)
+                {
+                    return NotFound("Category not found...");
+                }
+                return Ok(category);
             }
-            return Ok(category);
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error ocurred while handling your request");
+            }
+            
         }
         [HttpPost]
         public ActionResult Post(Category category)
         {
-            if(category == null)
+            try
             {
-                return BadRequest();
+                if (category == null)
+                {
+                    return BadRequest();
+                }
+                _context.Categories.Add(category);
+                _context.SaveChanges();
+                return new CreatedAtRouteResult("GetCategory",
+                    new { id = category.CategoryId }, category);
             }
-            _context.Categories.Add(category);
-            _context.SaveChanges();
-            return new CreatedAtRouteResult("GetCategory",
-                new { id = category.CategoryId }, category);
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error ocurred while handling your request");
+            }
+            
         }
         [HttpPut("{id:int}")]
         public ActionResult Put(int id, Category category)
         {
-            if(id != category.CategoryId)
+            try
             {
-                return BadRequest();
+                if (id != category.CategoryId)
+                {
+                    return BadRequest();
+                }
+                _context.Entry(category).State = EntityState.Modified;
+                _context.SaveChanges();
+                return Ok(category);
             }
-            _context.Entry(category).State = EntityState.Modified;
-            _context.SaveChanges();
-            return Ok(category);
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "An error ocurred while handling your request");
+            }
+            
         }
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-            var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
-            if(category == null)
+            try
             {
-                return NotFound("Category not found...");
+                var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+                if (category == null)
+                {
+                    return NotFound("Category not found...");
+                }
+                _context.Categories.Remove(category);
+                _context.SaveChanges();
+                return Ok(category);
             }
-            _context.Categories.Remove(category);
-            _context.SaveChanges();
-            return Ok(category);
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    "An error occurred while handling your request");
+            }
+            
         }
     }
 }
