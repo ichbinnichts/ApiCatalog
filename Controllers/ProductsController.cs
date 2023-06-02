@@ -58,7 +58,7 @@ namespace APICatalog.Controllers
             _context.Entry(product).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok();
+            return Ok(product);
         }
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)

@@ -2,6 +2,7 @@
 using APICatalog.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace APICatalog.Controllers
 {
@@ -46,6 +47,17 @@ namespace APICatalog.Controllers
             _context.SaveChanges();
             return new CreatedAtRouteResult("GetCategory",
                 new { id = category.CategoryId }, category);
+        }
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, Category category)
+        {
+            if(id != category.CategoryId)
+            {
+                return BadRequest();
+            }
+            _context.Entry(category).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Ok(category);
         }
     }
 }
