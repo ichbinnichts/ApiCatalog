@@ -29,7 +29,7 @@ namespace APICatalog.Controllers
         [HttpGet("{id:int}", Name ="GetCategory")]
         public ActionResult<Category> Get(int id)
         {
-            var category = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
+            var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
             if(category == null)
             {
                 return NotFound("Category not found...");
@@ -48,7 +48,7 @@ namespace APICatalog.Controllers
             return new CreatedAtRouteResult("GetCategory",
                 new { id = category.CategoryId }, category);
         }
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public ActionResult Put(int id, Category category)
         {
             if(id != category.CategoryId)
@@ -56,6 +56,18 @@ namespace APICatalog.Controllers
                 return BadRequest();
             }
             _context.Entry(category).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Ok(category);
+        }
+        [HttpDelete("{id:int}")]
+        public ActionResult Delete(int id)
+        {
+            var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+            if(category == null)
+            {
+                return NotFound("Category not found...");
+            }
+            _context.Categories.Remove(category);
             _context.SaveChanges();
             return Ok(category);
         }
